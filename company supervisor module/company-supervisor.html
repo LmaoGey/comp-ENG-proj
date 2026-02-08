@@ -1,0 +1,90 @@
+<!-- File: company-supervisor.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Supervisor Dashboard</title>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-tab { cursor: pointer; padding: 10px; }
+        .logbook-entry { border: 1px solid #ccc; margin: 10px; padding: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Company Supervisor Dashboard</h1>
+    
+
+    <div class="tabs">
+        <button class="nav-tab" data-tab="applications">Applications</button>
+        <button class="nav-tab" data-tab="logbooks">Student Logbooks</button>
+        <button class="nav-tab" data-tab="attendance">Attendance</button>
+        <button class="nav-tab" data-tab="dashboard">Dashboard</button>
+    </div>
+
+
+    <div id="applications" class="tab-content">
+        <h2>Internship Applications</h2>
+        <table id="applicationsTable">
+
+        </table>
+    </div>
+
+
+    <div id="logbooks" class="tab-content">
+        <h2>Student Logbooks</h2>
+        <select id="studentSelectLogbook">
+
+        </select>
+        <button onclick="loadStudentLogbook()">View Logbook</button>
+        <div id="logbookContainer"></div>
+    </div>
+
+
+    <div id="attendance" class="tab-content">
+        <h2>Record Attendance</h2>
+        <form id="attendanceForm">
+            <select id="studentSelect" required>
+                <option value="">Select Student</option>
+            </select>
+            <input type="date" id="attendanceDate" required>
+            <select id="attendanceStatus" required>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+                <option value="late">Late</option>
+            </select>
+            <textarea id="attendanceNotes" placeholder="Notes"></textarea>
+            <button type="submit">Record Attendance</button>
+        </form>
+        <div id="attendanceSummary"></div>
+    </div>
+
+
+    <div id="dashboard" class="tab-content active">
+        <h2>Overview</h2>
+        <div class="stats">
+            <p>Pending Applications: <span id="pendingApps">0</span></p>
+            <p>Active Students: <span id="activeStudents">0</span></p>
+            <p>Logbooks Pending Review: <span id="logbooksPending">0</span></p>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="commentModal" style="display:none;">
+        <h3>Add Comment</h3>
+        <form id="commentForm">
+            <input type="hidden" id="entryId">
+            <textarea id="commentText" rows="4" cols="50" required></textarea>
+            <button type="submit">Submit Comment</button>
+            <button type="button" onclick="document.getElementById('commentModal').style.display='none'">
+                Cancel
+            </button>
+        </form>
+    </div>
+
+    <script src="companySupervisorMain.js"></script>
+    <script src="applicationApproval.js"></script>
+    <script src="logbookViewer.js"></script>
+    <script src="logbookApproval.js"></script>
+    <script src="attendanceRecorder.js"></script>
+</body>
+</html>
