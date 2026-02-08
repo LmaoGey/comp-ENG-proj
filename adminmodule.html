@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Module Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            background: #34495e;
+            padding: 10px;
+        }
+        nav button {
+            margin: 5px;
+            padding: 10px;
+            background: #ecf0f1;
+            border: none;
+            cursor: pointer;
+        }
+        section {
+            padding: 20px;
+            display: none;
+        }
+        section.active {
+            display: block;
+            background: white;
+            margin: 20px;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #ecf0f1;
+        }
+        .card {
+            display: inline-block;
+            width: 200px;
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Admin Dashboard</h1>
+    <p>Student Supervision & Attendance System</p>
+</header>
+
+<nav>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('assign')">Assign Supervisor</button>
+    <button onclick="showSection('attendance')">Attendance</button>
+    <button onclick="showSection('reports')">Reports</button>
+    <button onclick="showSection('notifications')">Notifications</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="active">
+    <h2>Overview</h2>
+    <div class="card">Total Students<br><b>20</b></div>
+    <div class="card">Supervisors<br><b>5</b></div>
+    <div class="card">Assigned<br><b>3</b></div>
+    <div class="card">Unassigned<br><b>17</b></div>
+</section>
+
+<!-- ASSIGN SUPERVISOR -->
+<section id="assign">
+    <h2>Assign Student to Supervisor</h2>
+    <label>Student:</label>
+    <select id="student">
+        <option>Aina</option>
+        <option>Ben</option>
+        <option>Chandran</option>
+    </select>
+
+    <label>Supervisor:</label>
+    <select id="supervisor">
+        <option>Dr. Lim</option>
+        <option>Dr. Aisyah</option>
+        <option>Dr. Kumar</option>
+    </select>
+
+    <button onclick="assign()">Assign</button>
+
+    <p id="assignResult"></p>
+</section>
+
+<!-- ATTENDANCE -->
+<section id="attendance">
+    <h2>Monitor Student Attendance</h2>
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Attendance %</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>Aina</td>
+            <td>85%</td>
+            <td>Good</td>
+        </tr>
+        <tr>
+            <td>Ben</td>
+            <td>72%</td>
+            <td>Warning</td>
+        </tr>
+        <tr>
+            <td>Chandran</td>
+            <td>55%</td>
+            <td>Critical</td>
+        </tr>
+    </table>
+</section>
+
+<!-- REPORTS -->
+<section id="reports">
+    <h2>Generate Reports</h2>
+    <button onclick="downloadReport()">Download Attendance Report</button>
+    <p id="reportStatus"></p>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notifications">
+    <h2>Send Deadline Notification</h2>
+    <input type="text" id="message" placeholder="Enter notification message" size="40">
+    <button onclick="sendNotification()">Send</button>
+    <p id="notifyStatus"></p>
+</section>
+
+<script>
+    function showSection(id) {
+        document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function assign() {
+        let student = document.getElementById("student").value;
+        let supervisor = document.getElementById("supervisor").value;
+        document.getElementById("assignResult").innerText =
+            student + " has been assigned to " + supervisor;
+    }
+
+    function downloadReport() {
+        let content = "Student,Attendance\nAlice,85%\nBen,72%\nChandran,55%";
+        let blob = new Blob([content], { type: "text/csv" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "attendance_report.csv";
+        link.click();
+        document.getElementById("reportStatus").innerText = "Report downloaded successfully.";
+    }
+
+    function sendNotification() {
+        let msg = document.getElementById("message").value;
+        document.getElementById("notifyStatus").innerText =
+            "Notification sent: " + msg;
+    }
+</script>
+
+</body>
+</html>
